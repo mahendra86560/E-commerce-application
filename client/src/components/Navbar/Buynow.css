@@ -1,0 +1,39 @@
+.buy-btn {
+  background: #ff6b00;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.address-form {
+  background: white;
+  padding: 25px;
+  width: 400px;
+  border-radius: 10px;
+}
+
+.address-form input,
+.address-form textarea {
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+}
+
+.address-form button {
+  width: 100%;
+  padding: 10px;
+  background: green;
+  color: white;
+  border: none;
+}

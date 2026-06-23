@@ -1,0 +1,34 @@
+/* Main Image Container */
+.main-image-section {
+  width: 350px;
+  height: 350px;
+  background: #f8f9fa;
+  border-radius: 12px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  overflow: hidden;
+}
+
+/* Product Image */
+.main-product-image {
+  width: 220px !important;
+  height: 220px !important;
+
+  max-width: 220px !important;
+  max-height: 220px !important;
+
+  object-fit: contain;
+}
+
+/* Thumbnail Images */
+.thumb-image {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 4px;
+}
