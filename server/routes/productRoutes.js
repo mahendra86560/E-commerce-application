@@ -7,7 +7,7 @@ const {
   getProduct,
   updateProduct,
   deleteProduct,
-} = require("../controller/productController");
+} = require("../Controller/productController");
 
 const protect = require("../middleware/authMiddleware");
 
