@@ -1,22 +1,27 @@
 import React from "react";
-import "./Home.css"; // optional styling
+import { useNavigate } from "react-router-dom";
+import "./Home.css";
 
-function Home() {
+const Home = () => {
+  const navigate = useNavigate();
 
+  const handleGetStarted = () => {
+    navigate("/products");
+  };
 
   return (
-    <div className="home-container">
-      <h1 className="title">Shop by Categories</h1>
-
-      <div className="category-grid">
-        {categories.map((item) => (
-          <div className="category-card" key={item.id}>
-            <h3>{item.name}</h3>
-          </div>
-        ))}
+    <div className="home">
+      <div className="hero">
+        <h1>Welcome to My Website</h1>
+        <p>
+          Build amazing web applications with React and modern technologies.
+        </p>
+        <button className="btn" onClick={handleGetStarted}>
+          Get Started
+        </button>
       </div>
     </div>
   );
-}
+};
 
 export default Home;
