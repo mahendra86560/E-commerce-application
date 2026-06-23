@@ -4,21 +4,16 @@ import "bootstrap/dist/css/bootstrap.css";
 import Navbar from"./components/Navbar/Navbar";
 import Footer from "./components/Navbar/Footer";
 import "./App.css";
-import Home from "./pages/Home";
-import Products from "./pages/Products/Product";
-import ProductDetails from "./pages/Products/ProductDetails";
-
-import Cart from "./pages/Cart/Cart";
-
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-
-import Profile from "./pages/Profile/Profile";
-import Orders from "./pages/Orders/Order";
-
-import Checkout from "./pages/Checkout/Checkout";
-
-
+// AFTER
+import Home from "./Pages/Home";
+import Products from "./Pages/Products/Product";
+import ProductDetails from "./Pages/Products/ProductDetails";
+import Cart from "./Pages/Cart/Cart";
+import Login from "./Pages/Login";
+import Signup from "./Pages/Signup";
+import Profile from "./Pages/Profile/Profile";
+import Orders from "./Pages/Orders/Order";
+import Checkout from "./Pages/Checkout/Checkout";
 function App() {
   return (
     <>
