@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./Home.css";
+
 
 const Home = () => {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ const Home = () => {
         <p>
           Build amazing web applications with React and modern technologies.
         </p>
-        <button className="btn" onClick={handleGetStarted}>
+        <button className="btn bg-primary"onClick={handleGetStarted}>
           Get Started
         </button>
       </div>
