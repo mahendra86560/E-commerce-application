@@ -1,3 +1,4 @@
+
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
@@ -10,12 +11,30 @@ const app = express();
 // Connect to Database
 connectDB();
 
+// Allow the stable production domain, localhost for local dev,
+// AND any Vercel preview/deployment URL that belongs to this project
+// (e.g. e-commerce-application-4h34-xxxxx-mahendra86560s-projects.vercel.app)
+const allowedOrigins = [
+  "https://e-commerce-application-4h34.vercel.app",
+  "http://localhost:5173",
+];
+
+const vercelProjectPattern = /^https:\/\/e-commerce-application-4h34(-[a-z0-9]+)?(-git-main)?-mahendra86560s-projects\.vercel\.app$/;
+
 app.use(cors({
-  origin: [
-    "https://e-commerce-application-sandy-zeta.vercel.app",
-    "https://e-commerce-application-26xhpcp40-mahendra86560s-projects.vercel.app",
-    "http://localhost:5173",
-  ],
+  origin: function (origin, callback) {
+    // Allow requests with no origin (e.g. server-to-server, curl, Postman)
+    if (!origin) return callback(null, true);
+
+    if (
+      allowedOrigins.includes(origin) ||
+      vercelProjectPattern.test(origin)
+    ) {
+      return callback(null, true);
+    }
+
+    return callback(new Error("Not allowed by CORS: " + origin));
+  },
   credentials: true,
 }));
 app.use(express.json());
@@ -32,3 +51,4 @@ const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+

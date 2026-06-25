@@ -57,16 +57,10 @@ function Signup() {
         }
         catch (error) {
             console.log(error);
-            setMessage(error.response?.data?.message || "Something went wrong"
-            );
+            setMessage(error.response?.data?.message);
 
         }
-
-
     };
-
-
-
     return (
 
         <div className="signup-container">
