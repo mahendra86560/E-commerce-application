@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../api/axios";
 
 
 function Orders() {
@@ -14,8 +14,8 @@ function Orders() {
     try {
       const token = localStorage.getItem("token");
 
-      const { data } = await axios.get(
-        "http://localhost:5001/api/orders",
+      const { data } = await axiosInstance.get(
+        "/orders",
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -1,12 +1,34 @@
 import { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../api/axios";
+import { useNavigate, useLocation } from "react-router-dom";
 
 
 
 function Checkout() {
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Support two entry points:
+  // 1. Buy Now -> location.state = { product }
+  // 2. Cart checkout -> location.state = { cartItems, totalAmount }
+  const { product, cartItems } = location.state || {};
+
+  // Normalize everything into one array of items, regardless of entry point.
+  // Quantity defaults to 1 since neither Cart nor ProductDetails track quantity yet.
+  const items = product
+    ? [{ ...product, quantity: 1 }]
+    : (cartItems || []).map((item) => ({
+        ...item,
+        quantity: item.quantity || 1,
+      }));
+
+  // Always recalculate the total on the frontend from the actual items,
+  // rather than trusting a totalAmount passed in from another page.
+  const calculatedTotal = items.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 
   const [address, setAddress] = useState({
     fullName: "",
@@ -31,12 +53,27 @@ function Checkout() {
   const placeOrder = async (e) => {
     e.preventDefault();
 
+    if (items.length === 0) {
+      alert("No items to order");
+      return;
+    }
+
     try {
       setLoading(true);
 
-      const { data } = await axios.post(
-        "http://localhost:5001/api/orders",
+      // Build the products array in the exact shape the backend Order model expects:
+      // [{ product: <ObjectId>, quantity, price }]
+      const orderProducts = items.map((item) => ({
+        product: item._id,
+        quantity: item.quantity,
+        price: item.price,
+      }));
+
+      const { data } = await axiosInstance.post(
+        "/orders",
         {
+          products: orderProducts,
+          totalAmount: calculatedTotal,
           shippingAddress: address,
         },
         {
@@ -46,9 +83,13 @@ function Checkout() {
         }
       );
 
+      // If this was a cart checkout, clear the cart now that the order succeeded.
+      if (cartItems) {
+        localStorage.removeItem("cart");
+      }
+
       alert("Order Placed Successfully");
 
-      // 🔥 CHANGE IS HERE (THIS IS WHAT FIXES YOUR FLOW)
       navigate(`/order-details/${data._id}`);
 
     } catch (error) {
@@ -143,13 +184,12 @@ function Checkout() {
 
           <h2>Order Summary</h2>
 
-          <div className="summary-item">
-
-            <span>Items Total</span>
-
-            <span>₹{product.price * product.quantity}</span>
-
-          </div>
+          {items.map((item) => (
+            <div className="summary-item" key={item._id}>
+              <span>{item.name} x {item.quantity}</span>
+              <span>₹{item.price * item.quantity}</span>
+            </div>
+          ))}
 
           <div className="summary-item">
 
@@ -163,7 +203,7 @@ function Checkout() {
 
             <span>Total</span>
 
-            <span>₹{product.price * product.quantity}</span>
+            <span>₹{calculatedTotal}</span>
 
           </div>
 

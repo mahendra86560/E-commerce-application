@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../api/axios";
 import { useParams, useNavigate } from "react-router-dom";
 
 
@@ -17,8 +17,8 @@ function ProductDetails() {
 
   const fetchProduct = async () => {
     try {
-      const { data } = await axios.get(
-        `http://localhost:5001/api/products/${id}`
+      const { data } = await axiosInstance.get(
+        `/products/${id}`
       );
 
       setProduct(data);

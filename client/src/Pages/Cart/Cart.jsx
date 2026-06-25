@@ -9,14 +9,17 @@ function Cart() {
     const items =
       JSON.parse(localStorage.getItem("cart")) || [];
 
-    setCartItems(items);
+    // Ensure every item has a quantity, even if it was added
+    // before quantity support existed.
+    const normalized = items.map((item) => ({
+      ...item,
+      quantity: item.quantity || 1,
+    }));
+
+    setCartItems(normalized);
   }, []);
 
-  const removeFromCart = (id) => {
-    const updatedCart = cartItems.filter(
-      (item) => item._id !== id
-    );
-
+  const updateCartStorage = (updatedCart) => {
     setCartItems(updatedCart);
 
     localStorage.setItem(
@@ -25,8 +28,36 @@ function Cart() {
     );
   };
 
+  const removeFromCart = (id) => {
+    const updatedCart = cartItems.filter(
+      (item) => item._id !== id
+    );
+
+    updateCartStorage(updatedCart);
+  };
+
+  const increaseQuantity = (id) => {
+    const updatedCart = cartItems.map((item) =>
+      item._id === id
+        ? { ...item, quantity: item.quantity + 1 }
+        : item
+    );
+
+    updateCartStorage(updatedCart);
+  };
+
+  const decreaseQuantity = (id) => {
+    const updatedCart = cartItems.map((item) =>
+      item._id === id && item.quantity > 1
+        ? { ...item, quantity: item.quantity - 1 }
+        : item
+    );
+
+    updateCartStorage(updatedCart);
+  };
+
   const totalAmount = cartItems.reduce(
-    (total, item) => total + item.price,
+    (total, item) => total + item.price * item.quantity,
     0
   );
 
@@ -76,6 +107,30 @@ function Cart() {
                         <h5 className="text-success">
                           ₹{item.price}
                         </h5>
+
+                        <div className="d-flex align-items-center mb-3">
+                          <button
+                            className="btn btn-outline-secondary btn-sm"
+                            onClick={() =>
+                              decreaseQuantity(item._id)
+                            }
+                          >
+                            -
+                          </button>
+
+                          <span className="mx-3">
+                            {item.quantity}
+                          </span>
+
+                          <button
+                            className="btn btn-outline-secondary btn-sm"
+                            onClick={() =>
+                              increaseQuantity(item._id)
+                            }
+                          >
+                            +
+                          </button>
+                        </div>
 
                         <button
                           className="btn btn-danger"
