@@ -10,7 +10,13 @@ const app = express();
 // Connect to Database
 connectDB();
 
-app.use(cors());
+app.use(cors({
+  origin: [
+    "https://e-commerce-application-sandy-zeta.vercel.app",
+    "http://localhost:5173",
+  ],
+  credentials: true,
+}));
 app.use(express.json());
 
 // Routes
