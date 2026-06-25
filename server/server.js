@@ -13,6 +13,7 @@ connectDB();
 app.use(cors({
   origin: [
     "https://e-commerce-application-sandy-zeta.vercel.app",
+    "https://e-commerce-application-26xhpcp40-mahendra86560s-projects.vercel.app",
     "http://localhost:5173",
   ],
   credentials: true,
