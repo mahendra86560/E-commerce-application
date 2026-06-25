@@ -2,7 +2,7 @@
 
 A full-stack **MERN E-Commerce Application** that allows users to browse products, register/login securely, add items to their cart, place orders, and manage their shopping experience. The application includes authentication, product management, and a responsive user interface.
 
----
+-----
 
 # 🚀 Features
 
